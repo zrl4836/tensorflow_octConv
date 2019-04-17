@@ -12,12 +12,13 @@ k_sec = {2: 3, 3: 4, 4: 6, 5: 3}
 
 
 def get_before_pool():
+
     data = tf.Variable(name="data")
     data = tf.cast(x=data, dtype=np.float16) if use_fp16 else data
 
     # conv1
-    conv1 = Conv_BN_AC(data=data, num_filter=64, kernel=(7, 7), name='conv1', pad=(3, 3), stride=(2, 2))
-    pool1 = Pooling(data=conv1, pool_type="max", kernel=(3, 3), pad=(1, 1), stride=(2, 2), name="pool1")
+    conv1 = Conv_BN_AC(data=data, num_filter=64, kernel=(7, 7), name='conv1', pad='same', stride=(2, 2))
+    pool1 = Pooling(data=conv1, pool_type="max", kernel=(3, 3), pad='same', stride=(2, 2), name="pool1")
 
     # conv2
     num_in = 32
@@ -110,7 +111,7 @@ def get_before_pool():
     return output
 
 
-def get_linear(num_classes=1000):
+def get_linear(num_classes=10):
     before_pool = get_before_pool()
     pool5 = Pooling(data=before_pool, pool_type="avg", kernel=(7, 7), stride=(1, 1), name="global-pool")
     flat5 = tf.layers.Flatten(input=pool5, name='flatten')
@@ -118,9 +119,8 @@ def get_linear(num_classes=1000):
     return fc6
 
 
-def get_symbol(num_classes=1000):
+def get_symbol(num_classes=10):
     fc6 = get_linear(num_classes)
     softmax = tf.nn.softmax(logits=fc6, name='softmax')
     sys_out = softmax
     return sys_out
-
