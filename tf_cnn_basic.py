@@ -2,7 +2,7 @@ import tensorflow as tf
 
 
 def BN(data, bn_momentum=0.9, name=None):
-    return tf.contrib.layers.batch_norm(data, momentum=bn_momentum, name=('%s__bn' % name))
+    return tf.layers.batch_normalization(data, momentum=bn_momentum, name=('%s__bn' % name))
 
 
 def AC(data, name=None):
