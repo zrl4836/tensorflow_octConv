@@ -1,7 +1,7 @@
 import tensorflow as tf
 from tf_cnn_basic import *
 
-def firstOctConv(data, settings, ch_in, ch_out, name, kernel=(1,1), pad=(0,0), stride=(1,1)):
+def firstOctConv(data, settings, ch_in, ch_out, name, kernel=(1,1), pad='valid', stride=(1,1)):
     alpha_in, alpha_out = settings
     hf_ch_in = int(ch_in * (1 - alpha_in))
     hf_ch_out = int(ch_out * (1 - alpha_out))
@@ -21,7 +21,7 @@ def firstOctConv(data, settings, ch_in, ch_out, name, kernel=(1,1), pad=(0,0), s
     out_l = hf_pool_conv
     return out_h, out_l
 
-def lastOctConv(hf_data, lf_data, settings, ch_in, ch_out, name, kernel=(1,1), pad=(0,0), stride=(1,1)):
+def lastOctConv(hf_data, lf_data, settings, ch_in, ch_out, name, kernel=(1,1), pad='valid', stride=(1,1)):
     alpha_in, alpha_out = settings
     hf_ch_in = int(ch_in * (1 - alpha_in))
     hf_ch_out = int(ch_out * (1 - alpha_out))
@@ -35,7 +35,7 @@ def lastOctConv(hf_data, lf_data, settings, ch_in, ch_out, name, kernel=(1,1), p
 
     return out_h
 
-def OctConv(hf_data, lf_data, settings, ch_in, ch_out, name, kernel=(1,1), pad=(0,0), stride=(1,1)):
+def OctConv(hf_data, lf_data, settings, ch_in, ch_out, name, kernel=(1,1), pad='valid', stride=(1,1)):
     alpha_in, alpha_out = settings
     hf_ch_in = int(ch_in * (1 - alpha_in))
     hf_ch_out = int(ch_out * (1 - alpha_out))
@@ -98,5 +98,8 @@ def octConv_BN(hf_data, lf_data, alpha, num_filter_in, num_filter_out,  kernel, 
     out_hf = BN(data=hf_data, name=('%s_hf') % name)
     out_lf = BN(data=lf_data, name=('%s_lf') % name)
     return out_hf, out_lf
+
+
+
 
 
