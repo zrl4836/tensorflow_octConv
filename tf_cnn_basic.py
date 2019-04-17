@@ -15,7 +15,7 @@ def BN_AC(data, momentum=0.9, name=None):
     return bn_ac
 
 
-def Conv(data, num_filter, kernel, stride=(1, 1), pad='SAME', name=None, no_bias=False, w=None, b=None, attr=None,
+def Conv(data, num_filter, kernel, stride=(1, 1), pad='valid', name=None, no_bias=False, w=None, b=None, attr=None,
          num_group=1):
     if w is None:
         conv = tf.layers.conv2d(inputs=data, filters=num_filter, kernel_size=kernel,
@@ -59,7 +59,6 @@ def BN_Conv(data, num_filter, kernel, pad, stride=(1, 1), name=None, w=None, b=N
                   w=w, b=b, no_bias=no_bias, attr=attr)
     return bn_cov
 
-
 def AC_Conv(data, num_filter, kernel, pad, stride=(1, 1), name=None, w=None, b=None, no_bias=False, attr=None,
             num_group=1):
     ac = AC(data=data, name=('%s__ac' % name))
@@ -75,11 +74,11 @@ def BN_AC_Conv(data, num_filter, kernel, pad, stride=(1, 1), name=None, w=None, 
                      name=name, w=w, b=b, no_bias=no_bias, attr=attr)
     return ba_cov
 
-def Pooling(data, pool_type='avg', kernel=(2, 2), stride=(2, 2), name=None):
+def Pooling(data, pool_type='avg', kernel=(2, 2),pad='valid', stride=(2, 2), name=None):
     if pool_type == 'avg':
-        return tf.nn.avg_pool(value=data, ksize=kernel, strides=stride, name=name)
+        return tf.nn.avg_pool(value=data, ksize=kernel, padding=pad, strides=stride, name=name)
     elif pool_type == 'max':
-        return tf.nn.max_pool(value=data, ksize=kernel, strides=stride, name=name)
+        return tf.nn.max_pool(value=data, ksize=kernel, padding=pad, strides=stride, name=name)
 
 def ElementWiseSum(x, y, name=None):
     return tf.add(x=x, y=y, name=name)
