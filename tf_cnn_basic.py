@@ -76,9 +76,9 @@ def BN_AC_Conv(data, num_filter, kernel, pad, stride=(1, 1), name=None, w=None, 
 
 def Pooling(data, pool_type='avg', kernel=(2, 2),pad='valid', stride=(2, 2), name=None):
     if pool_type == 'avg':
-        return tf.nn.avg_pool(value=data, ksize=kernel, padding=pad, strides=stride, name=name)
+        return tf.layers.average_pooling2d(inputs=data, pool_size=kernel, strides=stride, padding=pad, name=name)
     elif pool_type == 'max':
-        return tf.nn.max_pool(value=data, ksize=kernel, padding=pad, strides=stride, name=name)
+        return tf.layers.max_pooling2d(inputs=data, pool_size=kernel, strides=stride, padding=pad, name=name)
 
 def ElementWiseSum(x, y, name=None):
     return tf.add(x=x, y=y, name=name)
