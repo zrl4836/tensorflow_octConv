@@ -37,8 +37,8 @@ def get_before_pool():
 
     for i in range(2, k_sec[2] + 1):
         hf_conv2_x, lf_conv2_x = Residual_Unit(
-            hf_data=(hf_conv1_x if i == 1 else hf_conv2_x),
-            lf_data=(lf_conv1_x if i == 1 else lf_conv2_x),
+            hf_data=(hf_conv1_x if i == 2 else hf_conv2_x),
+            lf_data=(lf_conv1_x if i == 2 else lf_conv2_x),
             alpha=alpha,
             num_in=(num_in if i == 1 else num_out),
             num_mid=num_mid,
@@ -114,7 +114,7 @@ def get_before_pool():
 def get_linear(num_classes=10):
     before_pool = get_before_pool()
     pool5 = Pooling(data=before_pool, pool_type="avg", kernel=(7, 7), stride=(1, 1), name="global-pool")
-    flat5 = tf.layers.Flatten(input=pool5, name='flatten')
+    flat5 = tf.layers.flatten(input=pool5, name='flatten')
     fc6 = tf.layers.dense(inputs=flat5, units=num_classes, name='classifier')
     return fc6
 
